@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>DevOps CI/CD Universe</title>
+<title>DevOps CI/CD Universe - Animal Edition</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
 
@@ -13,9 +13,9 @@ body {
     font-family: 'Poppins', sans-serif;
     height:100vh;
     overflow:hidden;
-    background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #1e3c72);
-    background-size: 400% 400%;
-    animation: gradientMove 12s ease infinite;
+    background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #1e3c72, #2a5298);
+    background-size: 500% 500%;
+    animation: gradientMove 15s ease infinite;
     color:white;
 }
 
@@ -41,18 +41,7 @@ canvas {
     height:140px;
     background: radial-gradient(circle at 30% 30%, #fff, #ddd, #aaa);
     border-radius:50%;
-    box-shadow: 0 0 60px rgba(255,255,255,0.8);
-}
-
-/* Milky way glow */
-.milkyway {
-    position:absolute;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background: radial-gradient(circle at 70% 30%, rgba(255,255,255,0.1), transparent 60%);
-    pointer-events:none;
+    box-shadow: 0 0 70px rgba(255,255,255,0.9);
 }
 
 /* Glass Card */
@@ -61,19 +50,13 @@ canvas {
     top:50%;
     transform:translateY(-50%);
     margin:auto;
-    width:700px;
+    width:720px;
     padding:60px;
     text-align:center;
     backdrop-filter: blur(25px);
     background: rgba(255,255,255,0.08);
     border-radius:25px;
-    box-shadow: 0 0 80px rgba(0,255,255,0.2);
-    animation: fadeIn 2s ease;
-}
-
-@keyframes fadeIn {
-    from { opacity:0; transform:translateY(-40%); }
-    to { opacity:1; transform:translateY(-50%); }
+    box-shadow: 0 0 80px rgba(0,255,255,0.3);
 }
 
 h1 {
@@ -91,86 +74,65 @@ h1 {
     font-size:45px;
     font-weight:bold;
     color:#00ffff;
-    text-shadow:0 0 15px cyan;
 }
 
-.footer {
-    margin-top:30px;
-    font-size:14px;
-    opacity:0.7;
-}
-
-/* Floating DevOps icons */
-.icon {
-    position:absolute;
-    font-size:40px;
-    opacity:0.15;
-    animation: floatIcons 12s linear infinite;
-}
-
-@keyframes floatIcons {
-    from { transform:translateY(100vh); }
-    to { transform:translateY(-100vh); }
-}
-
-/* Shooting Star */
-.shooting-star {
-    position:absolute;
-    width:3px;
-    height:120px;
-    background:linear-gradient(white, transparent);
-    transform:rotate(45deg);
-    animation:shoot 6s linear infinite;
-}
-
-@keyframes shoot {
-    0% { top:-100px; left:20%; opacity:0; }
-    10% { opacity:1; }
-    50% { top:100%; left:80%; opacity:0; }
-    100% { opacity:0; }
-}
-
-/* Animal ground */
+/* Ground */
 .ground {
     position:absolute;
     bottom:0;
     width:100%;
-    height:120px;
-    background: linear-gradient(to top, #0f2027, transparent);
+    height:130px;
+    background: linear-gradient(to top, #081c15, transparent);
     overflow:hidden;
 }
 
-/* Walking animals */
+/* Animal base style */
 .animal {
     position:absolute;
     bottom:20px;
     font-size:50px;
-    animation: walk 25s linear infinite;
+    animation: walk linear infinite;
 }
-
-.animal:nth-child(1) { animation-delay:0s; }
-.animal:nth-child(2) { animation-delay:6s; }
-.animal:nth-child(3) { animation-delay:12s; }
-.animal:nth-child(4) { animation-delay:18s; }
 
 @keyframes walk {
     from { left:-10%; }
     to { left:110%; }
 }
 
-/* Flying birds */
+/* Different speeds */
+.fast { animation-duration:15s; }
+.medium { animation-duration:25s; }
+.slow { animation-duration:40s; }
+
+/* Ocean animals */
+.ocean {
+    position:absolute;
+    bottom:140px;
+    width:100%;
+}
+
+.fish {
+    position:absolute;
+    font-size:40px;
+    animation: swim 30s linear infinite;
+}
+
+@keyframes swim {
+    from { left:110%; }
+    to { left:-10%; }
+}
+
+/* Birds */
 .bird {
     position:absolute;
-    top:120px;
+    top:100px;
     font-size:35px;
-    animation: fly 30s linear infinite;
-    opacity:0.8;
+    animation: fly 35s linear infinite;
 }
 
 @keyframes fly {
-    from { left:-10%; transform:translateY(0px); }
-    50% { transform:translateY(-20px); }
-    to { left:110%; transform:translateY(0px); }
+    from { left:-10%; }
+    to { left:110%; }
 }
 </style>
 </head>
@@ -178,67 +140,64 @@ h1 {
 <body>
 
 <canvas id="stars"></canvas>
-<div class="milkyway"></div>
 <div class="moon"></div>
-<div class="shooting-star"></div>
-
-<!-- Floating DevOps Icons -->
-<div class="icon" style="left:10%; animation-delay:0s;">🐳</div>
-<div class="icon" style="left:30%; animation-delay:4s;">☁️</div>
-<div class="icon" style="left:50%; animation-delay:8s;">⚙️</div>
-<div class="icon" style="left:70%; animation-delay:2s;">🚀</div>
-<div class="icon" style="left:85%; animation-delay:6s;">📦</div>
-
-<!-- Flying Birds -->
-<div class="bird" style="animation-delay:0s;">🐦</div>
-<div class="bird" style="animation-delay:10s;">🕊️</div>
 
 <!-- Main Card -->
 <div class="card">
-    <h1>🚀 CI/CD Deployment Universe</h1>
-
+    <h1>🚀 CI/CD DevOps Universe</h1>
     <div class="pipeline-icons">
         🐙 GitHub → 🤖 Jenkins → ☁️ AWS → 🌐 Apache
     </div>
-
     <div>
         Total Deployments:
         <div class="counter" id="counter">0</div>
     </div>
-
     <p style="margin-top:15px;">
         Last Updated: <span id="date"></span>
     </p>
-
-    <div class="footer">
-        DevOps by Manmadh Kumar Reddy Palle 🇸🇦
-    </div>
 </div>
 
-<!-- Animal Ground -->
+<!-- Ocean Animals -->
+<div class="ocean">
+    <div class="fish" style="animation-delay:0s;">🐠</div>
+    <div class="fish" style="animation-delay:8s;">🐟</div>
+    <div class="fish" style="animation-delay:15s;">🐬</div>
+    <div class="fish" style="animation-delay:20s;">🦈</div>
+</div>
+
+<!-- Flying Animals -->
+<div class="bird" style="animation-delay:0s;">🦅</div>
+<div class="bird" style="animation-delay:12s;">🕊️</div>
+<div class="bird" style="animation-delay:20s;">🐦</div>
+
+<!-- Ground Animals -->
 <div class="ground">
-    <div class="animal">🐘</div>
-    <div class="animal">🦒</div>
-    <div class="animal">🦓</div>
-    <div class="animal">🦌</div>
+    <div class="animal fast">🐆</div>
+    <div class="animal medium" style="animation-delay:5s;">🐘</div>
+    <div class="animal slow" style="animation-delay:10s;">🦒</div>
+    <div class="animal medium" style="animation-delay:15s;">🦓</div>
+    <div class="animal fast" style="animation-delay:18s;">🐕</div>
+    <div class="animal medium" style="animation-delay:22s;">🐅</div>
+    <div class="animal slow" style="animation-delay:28s;">🦌</div>
+    <div class="animal fast" style="animation-delay:32s;">🐎</div>
 </div>
 
 <script>
 // Date
 document.getElementById("date").innerHTML = new Date().toLocaleString();
 
-// Counter Animation
+// Counter
 let count = 0;
-let target = 150;
+let target = 200;
 let counter = document.getElementById("counter");
 
 let interval = setInterval(() => {
     count++;
     counter.innerText = count;
     if (count >= target) clearInterval(interval);
-}, 25);
+}, 20);
 
-// Star Background Animation
+// Star Background
 const canvas = document.getElementById("stars");
 const ctx = canvas.getContext("2d");
 
@@ -247,7 +206,7 @@ canvas.height = window.innerHeight;
 
 let stars = [];
 
-for(let i=0; i<250; i++){
+for(let i=0; i<300; i++){
     stars.push({
         x:Math.random()*canvas.width,
         y:Math.random()*canvas.height,
