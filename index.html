@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>DevOps CI/CD Ultimate Demo</title>
+<title>DevOps CI/CD Night Sky</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
 
@@ -13,16 +13,28 @@ body {
     font-family: 'Poppins', sans-serif;
     height:100vh;
     overflow:hidden;
-    background:#0f2027;
+    background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364);
     color:white;
 }
 
-/* Animated Background */
+/* Canvas Background */
 canvas {
     position:fixed;
     top:0;
     left:0;
     z-index:-1;
+}
+
+/* Moon */
+.moon {
+    position:absolute;
+    top:80px;
+    right:120px;
+    width:120px;
+    height:120px;
+    background: radial-gradient(circle at 30% 30%, #fff, #ddd, #aaa);
+    border-radius:50%;
+    box-shadow: 0 0 40px rgba(255,255,255,0.6);
 }
 
 /* Glass Card */
@@ -34,70 +46,22 @@ canvas {
     width:650px;
     padding:50px;
     text-align:center;
-    backdrop-filter: blur(25px);
+    backdrop-filter: blur(20px);
     background: rgba(255,255,255,0.08);
     border-radius:20px;
     box-shadow: 0 0 60px rgba(0,255,255,0.2);
-    animation: fadeIn 1.5s ease;
-}
-
-@keyframes fadeIn {
-    from { opacity:0; transform:translateY(-40%); }
-    to { opacity:1; transform:translateY(-50%); }
 }
 
 h1 {
     font-size:38px;
     margin-bottom:20px;
-    text-shadow:0 0 15px cyan;
-}
-
-.pipeline {
-    font-size:18px;
-    margin:20px 0;
-}
-
-.counter {
-    font-size:42px;
-    font-weight:bold;
-    color:#00ffff;
     text-shadow:0 0 10px cyan;
 }
 
-.progress {
-    margin-top:20px;
-    height:12px;
-    background:rgba(255,255,255,0.1);
-    border-radius:10px;
-    overflow:hidden;
-}
-
-.progress-bar {
-    height:100%;
-    width:0%;
-    background:linear-gradient(90deg, #00ffff, #00ff99);
-    animation: progressAnim 5s ease forwards;
-}
-
-@keyframes progressAnim {
-    from { width:0%; }
-    to { width:100%; }
-}
-
-button {
-    margin-top:25px;
-    padding:12px 25px;
-    background:#00ffff;
-    border:none;
-    border-radius:30px;
+.counter {
+    font-size:40px;
     font-weight:bold;
-    cursor:pointer;
-    transition:0.3s;
-}
-
-button:hover {
-    box-shadow:0 0 20px #00ffff;
-    transform:scale(1.1);
+    color:#00ffff;
 }
 
 .footer {
@@ -110,32 +74,25 @@ button:hover {
 
 <body>
 
-<canvas id="bg"></canvas>
+<canvas id="stars"></canvas>
+<div class="moon"></div>
 
 <div class="card">
     <h1>🚀 CI/CD Deployment Live</h1>
 
-    <div class="pipeline">
-        GitHub → Jenkins → AWS EC2 → Apache
-    </div>
+    <p>GitHub → Jenkins → AWS EC2 → Apache</p>
 
-    <div>
+    <div style="margin-top:20px;">
         Total Deployments:
         <div class="counter" id="counter">0</div>
-    </div>
-
-    <div class="progress">
-        <div class="progress-bar"></div>
     </div>
 
     <p style="margin-top:15px;">
         Last Updated: <span id="date"></span>
     </p>
 
-    <button onclick="location.reload()">🔄 Simulate Deployment</button>
-
     <div class="footer">
-        DevOps Engineered by Manmadh Reddy Palle 🇸🇦
+        DevOps by Manmadh Reddy Palle 🇸🇦
     </div>
 </div>
 
@@ -143,53 +100,55 @@ button:hover {
 // Date
 document.getElementById("date").innerHTML = new Date().toLocaleString();
 
-// Counter Animation
+// Counter
 let count = 0;
-let target = 100;
+let target = 80;
 let counter = document.getElementById("counter");
 
 let interval = setInterval(() => {
     count++;
     counter.innerText = count;
     if (count >= target) clearInterval(interval);
-}, 30);
+}, 40);
 
-// Particle Background
-const canvas = document.getElementById('bg');
-const ctx = canvas.getContext('2d');
+// Star Animation
+const canvas = document.getElementById("stars");
+const ctx = canvas.getContext("2d");
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-let particles = [];
+let stars = [];
 
-for (let i = 0; i < 100; i++) {
-    particles.push({
+for(let i = 0; i < 150; i++){
+    stars.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        radius: Math.random() * 2,
-        dx: (Math.random() - 0.5),
-        dy: (Math.random() - 0.5)
+        radius: Math.random() * 1.5,
+        opacity: Math.random(),
+        speed: Math.random() * 0.02
     });
 }
 
-function animate() {
+function animateStars(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.fillStyle = "rgba(0,255,255,0.7)";
-    particles.forEach(p => {
-        ctx.beginPath();
-        ctx.arc(p.x,p.y,p.radius,0,Math.PI*2);
-        ctx.fill();
-        p.x += p.dx;
-        p.y += p.dy;
 
-        if(p.x<0 || p.x>canvas.width) p.dx *= -1;
-        if(p.y<0 || p.y>canvas.height) p.dy *= -1;
+    stars.forEach(star => {
+        star.opacity += star.speed;
+        if(star.opacity >= 1 || star.opacity <= 0){
+            star.speed *= -1;
+        }
+
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.radius, 0, Math.PI*2);
+        ctx.fillStyle = `rgba(255,255,255,${star.opacity})`;
+        ctx.fill();
     });
-    requestAnimationFrame(animate);
+
+    requestAnimationFrame(animateStars);
 }
 
-animate();
+animateStars();
 </script>
 
 </body>
