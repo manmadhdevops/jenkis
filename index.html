@@ -2,99 +2,118 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>DevOps CI/CD Advanced Demo</title>
+<title>DevOps CI/CD Ultimate Demo</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+* { margin:0; padding:0; box-sizing:border-box; }
 
 body {
     font-family: 'Poppins', sans-serif;
-    height: 100vh;
-    overflow: hidden;
-    background: linear-gradient(-45deg, #1e3c72, #2a5298, #0f2027, #203a43);
-    background-size: 400% 400%;
-    animation: gradientMove 10s ease infinite;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
+    height:100vh;
+    overflow:hidden;
+    background:#0f2027;
+    color:white;
 }
 
-@keyframes gradientMove {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+/* Animated Background */
+canvas {
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:-1;
 }
 
+/* Glass Card */
 .card {
-    backdrop-filter: blur(20px);
-    background: rgba(255, 255, 255, 0.08);
-    padding: 50px;
-    border-radius: 20px;
-    text-align: center;
-    width: 600px;
-    box-shadow: 0 0 40px rgba(0,0,0,0.4);
-    animation: floatCard 4s ease-in-out infinite;
+    position:relative;
+    top:50%;
+    transform:translateY(-50%);
+    margin:auto;
+    width:650px;
+    padding:50px;
+    text-align:center;
+    backdrop-filter: blur(25px);
+    background: rgba(255,255,255,0.08);
+    border-radius:20px;
+    box-shadow: 0 0 60px rgba(0,255,255,0.2);
+    animation: fadeIn 1.5s ease;
 }
 
-@keyframes floatCard {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-15px); }
+@keyframes fadeIn {
+    from { opacity:0; transform:translateY(-40%); }
+    to { opacity:1; transform:translateY(-50%); }
 }
 
 h1 {
-    font-size: 36px;
-    margin-bottom: 20px;
+    font-size:38px;
+    margin-bottom:20px;
+    text-shadow:0 0 15px cyan;
 }
 
 .pipeline {
-    margin: 20px 0;
-    font-size: 18px;
+    font-size:18px;
+    margin:20px 0;
 }
 
 .counter {
-    font-size: 40px;
-    font-weight: bold;
-    margin-top: 15px;
+    font-size:42px;
+    font-weight:bold;
+    color:#00ffff;
+    text-shadow:0 0 10px cyan;
+}
+
+.progress {
+    margin-top:20px;
+    height:12px;
+    background:rgba(255,255,255,0.1);
+    border-radius:10px;
+    overflow:hidden;
+}
+
+.progress-bar {
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg, #00ffff, #00ff99);
+    animation: progressAnim 5s ease forwards;
+}
+
+@keyframes progressAnim {
+    from { width:0%; }
+    to { width:100%; }
+}
+
+button {
+    margin-top:25px;
+    padding:12px 25px;
+    background:#00ffff;
+    border:none;
+    border-radius:30px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover {
+    box-shadow:0 0 20px #00ffff;
+    transform:scale(1.1);
 }
 
 .footer {
-    margin-top: 30px;
-    font-size: 14px;
-    opacity: 0.7;
-}
-
-/* Floating DevOps Icons */
-.icon {
-    position: absolute;
-    font-size: 40px;
-    animation: floatIcons 8s linear infinite;
-    opacity: 0.2;
-}
-
-@keyframes floatIcons {
-    from { transform: translateY(100vh); }
-    to { transform: translateY(-100vh); }
+    margin-top:30px;
+    font-size:14px;
+    opacity:0.7;
 }
 </style>
 </head>
 
 <body>
 
-<div class="icon" style="left:10%; animation-delay:0s;">🐳</div>
-<div class="icon" style="left:25%; animation-delay:2s;">☁️</div>
-<div class="icon" style="left:40%; animation-delay:4s;">🚀</div>
-<div class="icon" style="left:70%; animation-delay:1s;">⚙️</div>
-<div class="icon" style="left:85%; animation-delay:3s;">📦</div>
+<canvas id="bg"></canvas>
 
 <div class="card">
-    <h1>🚀 CI/CD Deployment Successful</h1>
+    <h1>🚀 CI/CD Deployment Live</h1>
 
     <div class="pipeline">
         GitHub → Jenkins → AWS EC2 → Apache
@@ -105,31 +124,72 @@ h1 {
         <div class="counter" id="counter">0</div>
     </div>
 
+    <div class="progress">
+        <div class="progress-bar"></div>
+    </div>
+
     <p style="margin-top:15px;">
         Last Updated: <span id="date"></span>
     </p>
 
+    <button onclick="location.reload()">🔄 Simulate Deployment</button>
+
     <div class="footer">
-        DevOps Pipeline by Manmadh Reddy Palle | Saudi Arabia 🇸🇦
+        DevOps Engineered by Manmadh Reddy Palle 🇸🇦
     </div>
 </div>
 
 <script>
-// Auto date
+// Date
 document.getElementById("date").innerHTML = new Date().toLocaleString();
 
-// Animated counter
+// Counter Animation
 let count = 0;
-let target = 50;  // You can change deployment count here
+let target = 100;
 let counter = document.getElementById("counter");
 
 let interval = setInterval(() => {
     count++;
     counter.innerText = count;
-    if (count >= target) {
-        clearInterval(interval);
-    }
-}, 50);
+    if (count >= target) clearInterval(interval);
+}, 30);
+
+// Particle Background
+const canvas = document.getElementById('bg');
+const ctx = canvas.getContext('2d');
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+for (let i = 0; i < 100; i++) {
+    particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        radius: Math.random() * 2,
+        dx: (Math.random() - 0.5),
+        dy: (Math.random() - 0.5)
+    });
+}
+
+function animate() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle = "rgba(0,255,255,0.7)";
+    particles.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.radius,0,Math.PI*2);
+        ctx.fill();
+        p.x += p.dx;
+        p.y += p.dy;
+
+        if(p.x<0 || p.x>canvas.width) p.dx *= -1;
+        if(p.y<0 || p.y>canvas.height) p.dy *= -1;
+    });
+    requestAnimationFrame(animate);
+}
+
+animate();
 </script>
 
 </body>
