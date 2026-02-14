@@ -1,57 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>DevOps CI/CD Demo</title>
-    <style>
-        body {
-            background: linear-gradient(to right, #1e3c72, #2a5298);
-            font-family: Arial, sans-serif;
-            color: white;
-            text-align: center;
-            padding-top: 100px;
-        }
+<meta charset="UTF-8">
+<title>DevOps CI/CD Advanced Demo</title>
 
-        .card {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 40px;
-            border-radius: 10px;
-            display: inline-block;
-        }
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
 
-        h1 {
-            font-size: 40px;
-            margin-bottom: 20px;
-        }
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        p {
-            font-size: 18px;
-        }
+body {
+    font-family: 'Poppins', sans-serif;
+    height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(-45deg, #1e3c72, #2a5298, #0f2027, #203a43);
+    background-size: 400% 400%;
+    animation: gradientMove 10s ease infinite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
 
-        .footer {
-            margin-top: 40px;
-            font-size: 14px;
-            opacity: 0.8;
-        }
-    </style>
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.card {
+    backdrop-filter: blur(20px);
+    background: rgba(255, 255, 255, 0.08);
+    padding: 50px;
+    border-radius: 20px;
+    text-align: center;
+    width: 600px;
+    box-shadow: 0 0 40px rgba(0,0,0,0.4);
+    animation: floatCard 4s ease-in-out infinite;
+}
+
+@keyframes floatCard {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+}
+
+h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.pipeline {
+    margin: 20px 0;
+    font-size: 18px;
+}
+
+.counter {
+    font-size: 40px;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.footer {
+    margin-top: 30px;
+    font-size: 14px;
+    opacity: 0.7;
+}
+
+/* Floating DevOps Icons */
+.icon {
+    position: absolute;
+    font-size: 40px;
+    animation: floatIcons 8s linear infinite;
+    opacity: 0.2;
+}
+
+@keyframes floatIcons {
+    from { transform: translateY(100vh); }
+    to { transform: translateY(-100vh); }
+}
+</style>
 </head>
+
 <body>
 
-    <div class="card">
-        <h1>🚀 CI/CD Deployment Successful</h1>
-        <p>This webpage is automatically deployed using:</p>
-        <p><strong>GitHub → Jenkins → AWS EC2</strong></p>
+<div class="icon" style="left:10%; animation-delay:0s;">🐳</div>
+<div class="icon" style="left:25%; animation-delay:2s;">☁️</div>
+<div class="icon" style="left:40%; animation-delay:4s;">🚀</div>
+<div class="icon" style="left:70%; animation-delay:1s;">⚙️</div>
+<div class="icon" style="left:85%; animation-delay:3s;">📦</div>
 
-        <p>Last Updated: <span id="date"></span></p>
+<div class="card">
+    <h1>🚀 CI/CD Deployment Successful</h1>
 
-        <div class="footer">
-            DevOps Pipeline by Manmadh Reddy Palle
-        </div>
+    <div class="pipeline">
+        GitHub → Jenkins → AWS EC2 → Apache
     </div>
 
-    <script>
-        document.getElementById("date").innerHTML = new Date().toLocaleString();
-    </script>
+    <div>
+        Total Deployments:
+        <div class="counter" id="counter">0</div>
+    </div>
+
+    <p style="margin-top:15px;">
+        Last Updated: <span id="date"></span>
+    </p>
+
+    <div class="footer">
+        DevOps Pipeline by Manmadh Reddy Palle | Saudi Arabia 🇸🇦
+    </div>
+</div>
+
+<script>
+// Auto date
+document.getElementById("date").innerHTML = new Date().toLocaleString();
+
+// Animated counter
+let count = 0;
+let target = 50;  // You can change deployment count here
+let counter = document.getElementById("counter");
+
+let interval = setInterval(() => {
+    count++;
+    counter.innerText = count;
+    if (count >= target) {
+        clearInterval(interval);
+    }
+}, 50);
+</script>
 
 </body>
 </html>
