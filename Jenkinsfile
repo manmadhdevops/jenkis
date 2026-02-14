@@ -13,7 +13,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh '''
-                scp -o StrictHostKeyChecking=no index.html ec2-user@172.31.11.216:/var/www/html/index.html
+                scp -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/Auto-Deploy/index.html ec2-user@172.31.11.216:/var/www/html/index.html
                 ssh -o StrictHostKeyChecking=no ec2-user@172.31.11.216 "sudo systemctl restart httpd"
                 '''
             }
