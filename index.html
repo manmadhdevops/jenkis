@@ -117,10 +117,10 @@ h1 {
 .shooting-star {
     position:absolute;
     width:3px;
-    height:100px;
+    height:120px;
     background:linear-gradient(white, transparent);
     transform:rotate(45deg);
-    animation:shoot 5s linear infinite;
+    animation:shoot 6s linear infinite;
 }
 
 @keyframes shoot {
@@ -128,6 +128,49 @@ h1 {
     10% { opacity:1; }
     50% { top:100%; left:80%; opacity:0; }
     100% { opacity:0; }
+}
+
+/* Animal ground */
+.ground {
+    position:absolute;
+    bottom:0;
+    width:100%;
+    height:120px;
+    background: linear-gradient(to top, #0f2027, transparent);
+    overflow:hidden;
+}
+
+/* Walking animals */
+.animal {
+    position:absolute;
+    bottom:20px;
+    font-size:50px;
+    animation: walk 25s linear infinite;
+}
+
+.animal:nth-child(1) { animation-delay:0s; }
+.animal:nth-child(2) { animation-delay:6s; }
+.animal:nth-child(3) { animation-delay:12s; }
+.animal:nth-child(4) { animation-delay:18s; }
+
+@keyframes walk {
+    from { left:-10%; }
+    to { left:110%; }
+}
+
+/* Flying birds */
+.bird {
+    position:absolute;
+    top:120px;
+    font-size:35px;
+    animation: fly 30s linear infinite;
+    opacity:0.8;
+}
+
+@keyframes fly {
+    from { left:-10%; transform:translateY(0px); }
+    50% { transform:translateY(-20px); }
+    to { left:110%; transform:translateY(0px); }
 }
 </style>
 </head>
@@ -139,12 +182,18 @@ h1 {
 <div class="moon"></div>
 <div class="shooting-star"></div>
 
+<!-- Floating DevOps Icons -->
 <div class="icon" style="left:10%; animation-delay:0s;">🐳</div>
-<div class="icon" style="left:25%; animation-delay:3s;">☁️</div>
-<div class="icon" style="left:50%; animation-delay:6s;">⚙️</div>
+<div class="icon" style="left:30%; animation-delay:4s;">☁️</div>
+<div class="icon" style="left:50%; animation-delay:8s;">⚙️</div>
 <div class="icon" style="left:70%; animation-delay:2s;">🚀</div>
-<div class="icon" style="left:85%; animation-delay:5s;">📦</div>
+<div class="icon" style="left:85%; animation-delay:6s;">📦</div>
 
+<!-- Flying Birds -->
+<div class="bird" style="animation-delay:0s;">🐦</div>
+<div class="bird" style="animation-delay:10s;">🕊️</div>
+
+<!-- Main Card -->
 <div class="card">
     <h1>🚀 CI/CD Deployment Universe</h1>
 
@@ -166,22 +215,30 @@ h1 {
     </div>
 </div>
 
+<!-- Animal Ground -->
+<div class="ground">
+    <div class="animal">🐘</div>
+    <div class="animal">🦒</div>
+    <div class="animal">🦓</div>
+    <div class="animal">🦌</div>
+</div>
+
 <script>
 // Date
 document.getElementById("date").innerHTML = new Date().toLocaleString();
 
 // Counter Animation
 let count = 0;
-let target = 140;
+let target = 150;
 let counter = document.getElementById("counter");
 
 let interval = setInterval(() => {
     count++;
     counter.innerText = count;
     if (count >= target) clearInterval(interval);
-}, 30);
+}, 25);
 
-// Star Background
+// Star Background Animation
 const canvas = document.getElementById("stars");
 const ctx = canvas.getContext("2d");
 
@@ -190,7 +247,7 @@ canvas.height = window.innerHeight;
 
 let stars = [];
 
-for(let i=0; i<200; i++){
+for(let i=0; i<250; i++){
     stars.push({
         x:Math.random()*canvas.width,
         y:Math.random()*canvas.height,
