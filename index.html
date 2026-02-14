@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>DevOps CI/CD Night Sky</title>
+<title>DevOps CI/CD Universe</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
 
@@ -13,11 +13,18 @@ body {
     font-family: 'Poppins', sans-serif;
     height:100vh;
     overflow:hidden;
-    background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364);
+    background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #1e3c72);
+    background-size: 400% 400%;
+    animation: gradientMove 12s ease infinite;
     color:white;
 }
 
-/* Canvas Background */
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
 canvas {
     position:fixed;
     top:0;
@@ -30,11 +37,22 @@ canvas {
     position:absolute;
     top:80px;
     right:120px;
-    width:120px;
-    height:120px;
+    width:140px;
+    height:140px;
     background: radial-gradient(circle at 30% 30%, #fff, #ddd, #aaa);
     border-radius:50%;
-    box-shadow: 0 0 40px rgba(255,255,255,0.6);
+    box-shadow: 0 0 60px rgba(255,255,255,0.8);
+}
+
+/* Milky way glow */
+.milkyway {
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background: radial-gradient(circle at 70% 30%, rgba(255,255,255,0.1), transparent 60%);
+    pointer-events:none;
 }
 
 /* Glass Card */
@@ -43,25 +61,37 @@ canvas {
     top:50%;
     transform:translateY(-50%);
     margin:auto;
-    width:650px;
-    padding:50px;
+    width:700px;
+    padding:60px;
     text-align:center;
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(25px);
     background: rgba(255,255,255,0.08);
-    border-radius:20px;
-    box-shadow: 0 0 60px rgba(0,255,255,0.2);
+    border-radius:25px;
+    box-shadow: 0 0 80px rgba(0,255,255,0.2);
+    animation: fadeIn 2s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity:0; transform:translateY(-40%); }
+    to { opacity:1; transform:translateY(-50%); }
 }
 
 h1 {
-    font-size:38px;
+    font-size:40px;
     margin-bottom:20px;
-    text-shadow:0 0 10px cyan;
+    text-shadow:0 0 15px cyan;
+}
+
+.pipeline-icons {
+    font-size:35px;
+    margin:20px 0;
 }
 
 .counter {
-    font-size:40px;
+    font-size:45px;
     font-weight:bold;
     color:#00ffff;
+    text-shadow:0 0 15px cyan;
 }
 
 .footer {
@@ -69,20 +99,60 @@ h1 {
     font-size:14px;
     opacity:0.7;
 }
+
+/* Floating DevOps icons */
+.icon {
+    position:absolute;
+    font-size:40px;
+    opacity:0.15;
+    animation: floatIcons 12s linear infinite;
+}
+
+@keyframes floatIcons {
+    from { transform:translateY(100vh); }
+    to { transform:translateY(-100vh); }
+}
+
+/* Shooting Star */
+.shooting-star {
+    position:absolute;
+    width:3px;
+    height:100px;
+    background:linear-gradient(white, transparent);
+    transform:rotate(45deg);
+    animation:shoot 5s linear infinite;
+}
+
+@keyframes shoot {
+    0% { top:-100px; left:20%; opacity:0; }
+    10% { opacity:1; }
+    50% { top:100%; left:80%; opacity:0; }
+    100% { opacity:0; }
+}
 </style>
 </head>
 
 <body>
 
 <canvas id="stars"></canvas>
+<div class="milkyway"></div>
 <div class="moon"></div>
+<div class="shooting-star"></div>
+
+<div class="icon" style="left:10%; animation-delay:0s;">🐳</div>
+<div class="icon" style="left:25%; animation-delay:3s;">☁️</div>
+<div class="icon" style="left:50%; animation-delay:6s;">⚙️</div>
+<div class="icon" style="left:70%; animation-delay:2s;">🚀</div>
+<div class="icon" style="left:85%; animation-delay:5s;">📦</div>
 
 <div class="card">
-    <h1>🚀 CI/CD Deployment Live</h1>
+    <h1>🚀 CI/CD Deployment Universe</h1>
 
-    <p>GitHub → Jenkins → AWS EC2 → Apache</p>
+    <div class="pipeline-icons">
+        🐙 GitHub → 🤖 Jenkins → ☁️ AWS → 🌐 Apache
+    </div>
 
-    <div style="margin-top:20px;">
+    <div>
         Total Deployments:
         <div class="counter" id="counter">0</div>
     </div>
@@ -100,18 +170,18 @@ h1 {
 // Date
 document.getElementById("date").innerHTML = new Date().toLocaleString();
 
-// Counter
+// Counter Animation
 let count = 0;
-let target = 80;
+let target = 120;
 let counter = document.getElementById("counter");
 
 let interval = setInterval(() => {
     count++;
     counter.innerText = count;
     if (count >= target) clearInterval(interval);
-}, 40);
+}, 30);
 
-// Star Animation
+// Star Background
 const canvas = document.getElementById("stars");
 const ctx = canvas.getContext("2d");
 
@@ -120,28 +190,26 @@ canvas.height = window.innerHeight;
 
 let stars = [];
 
-for(let i = 0; i < 150; i++){
+for(let i=0; i<200; i++){
     stars.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        radius: Math.random() * 1.5,
-        opacity: Math.random(),
-        speed: Math.random() * 0.02
+        x:Math.random()*canvas.width,
+        y:Math.random()*canvas.height,
+        radius:Math.random()*1.5,
+        opacity:Math.random(),
+        speed:Math.random()*0.02
     });
 }
 
 function animateStars(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
 
-    stars.forEach(star => {
-        star.opacity += star.speed;
-        if(star.opacity >= 1 || star.opacity <= 0){
-            star.speed *= -1;
-        }
+    stars.forEach(star=>{
+        star.opacity+=star.speed;
+        if(star.opacity>=1||star.opacity<=0) star.speed*=-1;
 
         ctx.beginPath();
-        ctx.arc(star.x, star.y, star.radius, 0, Math.PI*2);
-        ctx.fillStyle = `rgba(255,255,255,${star.opacity})`;
+        ctx.arc(star.x,star.y,star.radius,0,Math.PI*2);
+        ctx.fillStyle=`rgba(255,255,255,${star.opacity})`;
         ctx.fill();
     });
 
